@@ -20,7 +20,7 @@ const imageDir = 'images';
 
 async function makeDirectory(dir) {
 	logger.info({ dir }, 'called to make directory');
-	if (!existsSync(directory)){
+	if (!existsSync(dir)){
 		mkdirSync(dir);
 		logger.info({ dir }, 'created the directory');
 	}
