@@ -28,19 +28,19 @@ describe("Cat Image", () => {
 		expect(process.env.CAT_API_URL).toBe("https://cataas.com/cat/says");
 	});
 
-	it("Cat - Image Process - success", async (done) => {
+	it("it should pass fetch image", async (done) => {
 		jest.spyOn(catService, "fetchCatImage").mockReturnValue(catImagesResponse);
 		done();
 	});
 
-	it("should pass", async (done) => {
+	it("it should pass image join", async (done) => {
 		jest.spyOn(path, "join").mockReturnValueOnce("/images/cat-card-1619465432676.jpg");
 		const actual = "/images/cat-card-1619465432676.jpg";
 		expect(actual).toBe("/images/cat-card-1619465432676.jpg");
 		done();
 	});
 
-	it("should pass", async (done) => {
+	it("it should pass image write_file", async (done) => {
 		jest.spyOn(fs, "writeFile").mockReturnValueOnce("/images/cat-card-1619465432676.jpg");
 		const actual = "/images/cat-card-1619465432676.jpg";
 		expect(actual).toBe("/images/cat-card-1619465432676.jpg");

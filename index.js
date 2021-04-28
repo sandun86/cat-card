@@ -1,5 +1,6 @@
 const { join } = require("path");
-const { writeFile } = require("fs").promises;
+const { writeFile, access, mkdir } = require("fs").promises;
+const { fs, existsSync, mkdirSync } = require("fs");
 
 const blend = require("@mapbox/blend");
 const argv = require("minimist")(process.argv.slice(2));
@@ -15,14 +16,23 @@ const {
 	color = "Pink",
 	size = 100
 } = argv;
+const imageDir = 'images';
+
+async function makeDirectory(dir) {
+	logger.info({ dir }, 'called to make directory');
+	if (!existsSync(directory)){
+		mkdirSync(dir);
+		logger.info({ dir }, 'created the directory');
+	}
+}
 
 async function blendCallback(error, data) {
 	if (error) {
 		logger.error({ error }, 'error occurred while blending images');
 		process.exit(1);
 	}
-
-	const path = join(process.cwd(), `/images/cat-card-${Date.now()}.jpg`);
+	await makeDirectory(imageDir);
+	const path = join(process.cwd(), `/${imageDir}/cat-card-${Date.now()}.jpg`);
 	logger.info({ path }, 'saving image at:');
 
 	await writeFile(path, data, 'binary');
@@ -31,7 +41,7 @@ async function blendCallback(error, data) {
 
 async function start() {
 	try {
-		logger.info({ greeting, who, width, height, color, size }, 'fetching cat images. Received options:');
+		logger.info({ greeting, who, width, height, color, size }, 'fetching cat images. Received options');
 		const catImages = await Promise.all([
 			fetchCatImage({ label: greeting, width, height, color, size }),
 			fetchCatImage({ label: who, width, height, color, size }),

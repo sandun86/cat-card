@@ -26,7 +26,7 @@ describe("Cat service", () => {
 			ok: false,
 		});
 
-		await fetchCatImage({ who: "who", width: 300, height: 300, color: "red", size: 300 }).catch((res) => {
+		await fetchCatImage(options).catch((res) => {
 			expect(res.message).toBe("An error occurred while fetch image");
 		});
 	});
