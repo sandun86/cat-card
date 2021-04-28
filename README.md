@@ -3,8 +3,6 @@
 ### Cat Card Application
 ----------
 
-## Installation
-----------
 Install dependencies
     
     npm install
