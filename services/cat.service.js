@@ -41,7 +41,7 @@ const catService = {
 
 						await writeFile(path, data, "binary");
 						log.info("Congratz, Image successfully generated!");
-						return res.status(200).json(response(200, "You have successfully generated the image!", req.body));
+						return res.status(201).json(response(201, "You have successfully generated the image!", req.body));
 					} catch (err) {
 						log.error({ err }, "error occurred while saving images");
 						res.status(500).json(response(500, "System error!", err.message));
