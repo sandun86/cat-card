@@ -5,9 +5,8 @@
   "scripts": {
     "test": "jest",
     "test-watch": "jest --watch",
-    "prod": "node index.js",
-    "start": "node index.js",
-    "start-data": "node index.js --greeting=hello --who=world --width=250 --height=500 --color='Pink' --size=100"
+    "prod": "node server.js",
+    "start": "node server.js | bunyan"
   },
   "author": "Sandun Dissanayake",
   "license": "ISC",
@@ -15,9 +14,13 @@
     "@mapbox/blend": "2.0.1",
     "bunyan": "1.8.15",
     "dotenv": "8.2.0",
+    "express": "4.17.1",
+    "express-validator": "6.10.1",
     "jest": "26.6.3",
     "jest-fetch-mock": "3.0.3",
     "minimist": "1.2.5",
-    "node-fetch": "2.6.1"
+    "node-fetch": "2.6.1",
+    "node-mocks-http": "1.10.1",
+    "uuid": "8.3.2"
   }
 }

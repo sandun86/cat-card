@@ -7,4 +7,6 @@ const log = bunyan.createLogger({
     level: LOG_LEVEL,
 });
 
-module.exports = log;
+module.exports = {
+    log
+};

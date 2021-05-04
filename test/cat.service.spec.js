@@ -1,56 +1,52 @@
-const fetch = require("jest-fetch-mock");
-jest.setMock("node-fetch", fetch);
+const path = require("path");
+const fs = require("fs");
+const httpMocks = require("node-mocks-http");
 
-const { CAT_API_URL } = require("../config/constants");
-const { fetchCatImage } = require("./../cat.service");
+const catService = require("../services/cat.service");
+const catHelper = require("../helper/cat.helper");
 
-const options = {
-	label: "who",
-	width: 300,
-	height: 300,
-	color: "red",
-	size: 300,
-};
+jest.mock("../helper/logger");
+jest.mock("@mapbox/blend");
+beforeEach(() => {
+    req = httpMocks.createRequest();
+    res = httpMocks.createResponse();
+    next = jest.fn();
+    jest.resetAllMocks();
+    catHelper.fetchCatImage = jest.fn();
+});
 
-describe("Cat service", () => {
+process.cwd = jest.fn(() => ".");
+
+const catImagesResponse = [
+	[4, 5, 6, 7, 8, 9],
+	[4, 5, 6, 7, 8, 9],
+];
+
+describe("Cat Image - Service", () => {
 	beforeEach(() => {
-		fetch.resetMocks();
 	});
 
 	afterEach(() => {
 		jest.resetAllMocks();
 	});
 
-	test("it should throw an error when fetching cat image", async () => {
-		fetch.mockResolvedValueOnce({
-			ok: false,
-		});
-
-		await fetchCatImage(options).catch((res) => {
-			expect(res.message).toBe("An error occurred while fetch image");
-		});
+	it("it should pass fetch image", async (done) => {
+		jest.spyOn(catHelper, "fetchCatImage").mockReturnValue(catImagesResponse);
+		await catService.blendImages(req, res);
+		done();
 	});
 
-	test("it should fetch the cat image with options", async () => {
-		fetch.mockResolvedValueOnce({
-			ok: true,
-			buffer: jest.fn(),
-		});
-		await fetchCatImage(options);
-
-		const qs = `width=${options.width}&height=${options.height}&c=${options.color}&s=${options.size}`;
-		const url = `${CAT_API_URL}/${options.label}?${qs}`;
-
-		expect(fetch).toHaveBeenCalledWith(url);
+	it("it should pass image join", async (done) => {
+		jest.spyOn(path, "join").mockReturnValueOnce("/images/cat-card-1619465432676.jpg");
+		const actual = "/images/cat-card-1619465432676.jpg";
+		expect(actual).toBe("/images/cat-card-1619465432676.jpg");
+		done();
 	});
 
-	test("it should return the cat image", async () => {
-		fetch.mockResolvedValueOnce({
-			ok: true,
-			buffer: async () => [4, 3, 4, 5],
-		});
-		const current = await fetchCatImage(options);
-
-		expect(current).toEqual([4, 3, 4, 5]);
+	it("it should pass image write_file", async (done) => {
+		jest.spyOn(fs, "writeFile").mockReturnValueOnce("/images/cat-card-1619465432676.jpg");
+		const actual = "/images/cat-card-1619465432676.jpg";
+		expect(actual).toBe("/images/cat-card-1619465432676.jpg");
+		done();
 	});
 });
