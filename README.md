@@ -16,7 +16,7 @@ Install steps
     7.Congratulations!. You have done it
 
 ----------  
-
+[I'm an inline-style link](https://www.google.com)
 ## NPM scripts
 
 - `npm start` - start application
