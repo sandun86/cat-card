@@ -1,6 +1,6 @@
 
  
-### Cat Card Application (Nodejs version - 16)
+### Cat Card Application (Nodejs v16.16.0)
 ----------
 User can bind the two images according to the passed parameters using the given API
 
